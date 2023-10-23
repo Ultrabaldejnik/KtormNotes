@@ -6,7 +6,6 @@ import com.example.entities.NoteTables
 import com.example.entities.UserTables
 import com.example.models.Note
 import org.ktorm.dsl.*
-import java.time.LocalDate
 
 class DBImpl {
 
@@ -38,11 +37,11 @@ class DBImpl {
 
     fun addNote(note:Note,email: String){
         database.insert(NoteTables){
-            set(it.id,note.id)
+
             set(it.email, email)
             set(it.noteTitle, note.noteTitle)
             set(it.description, note.noteTitle)
-            set(it.date,note.date)
+            set(it.date_time,note.date_time)
         }
     }
 
@@ -51,8 +50,8 @@ class DBImpl {
             val id = it[NoteTables.id]!!
             val noteTitle=it[NoteTables.noteTitle]!!
             val description= it[NoteTables.description]!!
-            val date=it[NoteTables.date]!!
-            Note(id=id, noteTitle = noteTitle, description = description, date = date)
+            val date=it[NoteTables.date_time]!!
+            Note(id=id, noteTitle = noteTitle, description = description, date_time = date)
         }
     }
 
@@ -60,14 +59,14 @@ class DBImpl {
         database.update(NoteTables){
             set(it.noteTitle, note.noteTitle)
             set(it.description, note.noteTitle)
-            set(it.date,note.date)
+            set(it.date_time,note.date_time)
             where {
                 it.email eq email
             }
         }
     }
 
-    fun deleteNotes(id : String, email: String){
+    fun deleteNotes(id : Int, email: String){
         database.delete(NoteTables){
             it.id eq id
             it.email eq email

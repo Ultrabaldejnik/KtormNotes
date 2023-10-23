@@ -68,7 +68,7 @@ fun Route.NoteRoutes(db: DBImpl, hashFunction: (String) -> String) {
 
             try {
                 val email = call.principal<User>()!!.email
-                db.deleteNotes(noteId, email)
+                db.deleteNotes(noteId.toInt(), email)
                 call.respond(HttpStatusCode.OK, SimpleResponse(true,"Note deleted successfully"))
             }catch (e : Exception){
                 call.respond(HttpStatusCode.Conflict, SimpleResponse(false, e.message ?: " Some problems..."))
